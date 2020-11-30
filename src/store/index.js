@@ -5,17 +5,29 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        playlist: []
+        artists: null,
+        playlist: null,
+        favorites: []
     },
     mutations: {
         initializeStore(state) {
-            if(localStorage.getItem('playlist')) {
-                state.playlist = JSON.parse(localStorage.getItem('playlist'));
+            if(localStorage.getItem('favorites')) {
+                state.favorites = JSON.parse(localStorage.getItem('favorites'));
             }
         },
-        addSong(state, song) {
-            state.playlist.push(song);
-            localStorage.setItem('playlist', JSON.stringify(state.playlist));
+        loadArtists(state, artists) {
+            state.artists = artists;
+        },
+        loadPlaylist(state, playlist) {
+            state.playlist = playlist;
+        },
+        addFavorite(state, song) {
+            state.favorites.push(song);
+            localStorage.setItem('favorites', JSON.stringify(state.favorites));
+        },
+        removeFavorite(state, song) {
+            state.favorites.splice(state.favorites.indexOf(song), 1);
+            localStorage.setItem('favorites', JSON.stringify(state.favorites));
         }
     }
 });

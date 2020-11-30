@@ -14,7 +14,7 @@
                 <div class="player-song-infos ml-3">
                     <div v-if="audioPlayer">
                         <p class="player-song-title font-weight-medium mb-1 mt-1">{{ playlist[currentPlaying].title }}</p>
-                        <p class="player-song-artist font-weight-light mb-0">{{ playlist[currentPlaying].artist }}</p>
+                        <p class="player-song-artist font-weight-light mb-0">{{ artist(playlist[currentPlaying].artist) }}</p>
                     </div>
                 </div>
             </v-col>
@@ -57,6 +57,7 @@
 
 <script>
     import {Howl, Howler} from 'howler';
+    import DataService from '../../services/data.service';
 
     export default {
         name: "Player",
@@ -70,18 +71,18 @@
                 showedSeek: {
                     current: this.readableSeek(0),
                     duration: this.readableSeek(0)
-                }
+                },
+                dataService: null
             }
         },
         created() {
             setInterval(() => {
                 if(this.audioPlayer) {
                     this.updateCurrentSeek();
-                    /*if(!this.audioPlayer.playing()) {
-                        this.audioPlayer = null;
-                    }*/
                 }
             }, 1000);
+
+            this.dataService = new DataService();
         },
         mounted() {
             this.$root.$on('play', () => {
@@ -96,7 +97,7 @@
                     else
                         this.audioPlayer.play();
                 } else {
-                    this.setSource(require('../../assets/music/' + this.playlist[this.currentPlaying].path));
+                    this.setSource(this.playlist[this.currentPlaying].path);
                     this.togglePlay();
                 }
             },
@@ -107,6 +108,7 @@
                     return console.log('No previous sound in playlist');
 
                 this.setSource(previous.path);
+                this.currentPlaying = index;
             },
             skipNext() {
                 let index = this.currentPlaying + 1;
@@ -115,10 +117,11 @@
                     return console.log('No next sound in playlist');
 
                 this.setSource(next.path);
+                this.currentPlaying = index;
             },
             setSource(sound) {
                 this.audioPlayer = new Howl({
-                    src: [sound]
+                    src: [require('../../assets/music/' + sound)]
                 });
             },
             updateCurrentSeek(value) {
@@ -148,6 +151,9 @@
                     else if(this.audioPlayer.playing()) return 'mdi-pause';
                 }
                 return 'mdi-play';
+            },
+            artist(id) {
+                return this.dataService.getArtist(id).name;
             }
         },
         watch: {

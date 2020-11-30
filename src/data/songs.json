@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Petit Poney",
+    "artist": 1,
+    "path": "petit_poney.mp3",
+    "thumb": "https://i.ytimg.com/vi/YxpmeQPk8Ig/hqdefault.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Petit Poney (Remastered)",
+    "artist": 2,
+    "path": "petit_poney.mp3",
+    "thumb": "https://i.ytimg.com/vi/YxpmeQPk8Ig/hqdefault.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Another Petit Poney",
+    "artist": 2,
+    "path": "petit_poney.mp3",
+    "thumb": "https://i.ytimg.com/vi/YxpmeQPk8Ig/hqdefault.jpg"
+  }
+]
